@@ -1,48 +1,63 @@
 package com.aig.testcases;
 
 import com.aig.cucumber.CustomElementFunctions;
-import com.aig.stepDefinition.Common;
 import com.aig.stepDefinition.Injection;
 import com.aig.utility.MyScreenRecorder;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 public class MyTestDemo extends CustomElementFunctions {
+    private Injection inject;
+
     public MyTestDemo(Injection inject) {
         super(inject);
     }
-    public void navigationTest() throws Exception{
-//        MyScreenRecorder.startRecording("navigationTest");
-        navigateTo("http://www.google.com",6);
-        navigateTo("http://www.facebook.com",6);
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
 
+    public void navigationTest() throws Exception {
+        //        TODO
+        screenRecording();
+    }
+
+    public void screenRecording() throws Exception {
+        //        MyScreenRecorder.startRecording("navigationTest");
+        navigateTo("http://www.google.com", 6);
+        navigateTo("http://www.facebook.com", 6);
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
 //        MyScreenRecorder.stopRecording();
     }
-    public void navigation_FeatureTest() throws Exception{
-        MyScreenRecorder.startRecording("navigation_FeatureTest");
 
-        driver.get("http://www.amazon.com");
-        driver.navigate().to("http://www.rediff.com");
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
-        driver.navigate().back();
-        driver.navigate().forward();
+    public void navigation_FeatureTest() throws Exception {
+        MyScreenRecorder.startRecording("navigation_FeatureTest");
+//FIXME
+        inject.driver.get("http://www.amazon.com");
+        inject.driver.navigate().to("http://www.rediff.com");
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
+        inject.driver.navigate().back();
+        inject.driver.navigate().forward();
 
         MyScreenRecorder.stopRecording();
+    }
+
+
+    public void checkTheFunctionalityOfLogFourJIsWorkingAsExpected() {
+
+        System.out.println("hi");
+//        Logger log =Logger.getLogger(String.valueOf(VolPage.class));
+//        invokeApp();
+//        log.info("Launching browser");
+//        startApplication(driver,"chrome","http://www.google.com");
+//        log.info("google url has been launched");
+//        quitBrowser(driver);
+//        log.info("closing browser");
     }
 }

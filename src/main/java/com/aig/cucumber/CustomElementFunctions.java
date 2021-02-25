@@ -2,8 +2,6 @@ package com.aig.cucumber;
 
 import com.aig.stepDefinition.Injection;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -12,18 +10,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.http.HttpResponse;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.beans.Encoder;
 import java.io.*;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,16 +26,19 @@ import java.util.concurrent.TimeUnit;
 import static com.aig.stepDefinition.Injection.globalParameterFile;
 
 public class CustomElementFunctions {
-   public WebDriver driver;
+    public String webElementWaitTime;
+    //    public WebDriver driver;
+    Injection inject;
 
-    Injection inject ;
-    public CustomElementFunctions(Injection inject){this.inject=inject;}
+    public CustomElementFunctions(Injection inject) {
+        this.inject = inject;
+    }
 
-    public static WebDriver startApplication(WebDriver driver, String browserName, String appURL) {
+    public void startApplication(String browserName, String appURL) {
         if (browserName.equalsIgnoreCase("chrome")) {
-            System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY,"true");
-            System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
-            driver = new ChromeDriver();
+            System.setProperty(ChromeDriverService.CHROME_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\chromedriver.exe");
+            inject.driver = new ChromeDriver();
         }
 //        else if (browserName.equalsIgnoreCase("firefox")) {
 //            driver = new FirefoxDriver();
@@ -50,35 +46,48 @@ public class CustomElementFunctions {
         else {
             System.out.println("We do not support this browser");
         }
-        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        driver.get(appURL);
-        driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
-        return driver;
+        inject.driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+        inject.driver.manage().window().maximize();
+        inject.driver.get(appURL);
+        inject.driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
+//        return driver;
     }
 
-    public static void quitBrowser(WebDriver driver) {
-        driver.close();
+    //    public void quitBrowser(WebDriver tempDriver) {
+//        tempDriver=this.driver;
+//        tempDriver.quit();
+//    }
+//
+    public synchronized void waitForElementToBeClickable(WebElement element) throws Exception {
+        try {
+            webElementWaitTime = getProp("webElementWaitTime", inject.globalParameterFile);
+            WebDriverWait wait = new WebDriverWait(inject.driver, Long.parseLong(webElementWaitTime));
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void navigateTo(String URL, int intWaitTime) throws Exception {
         try {
-            driver.get(URL);
-            driver.manage().timeouts().implicitlyWait(intWaitTime, TimeUnit.SECONDS);
+            inject.driver.get(URL);
+            inject.driver.manage().timeouts().implicitlyWait(intWaitTime, TimeUnit.SECONDS);
+            inject.driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         } catch (Exception e) {
 //            reportEvent("error", e.toString());
             e.printStackTrace();
         }
     }
+
     public boolean validateTextIgnoreCase(By objLocator, String expectedText) {
         try {
             String actualText = "";
-            if (!(driver.findElement(objLocator).getText().equals(""))) {
-                actualText = driver.findElement(objLocator).getText();
-            } else if (!(driver.findElement(objLocator).getAttribute("value").equals(""))) {
-                actualText = driver.findElement(objLocator).getAttribute("value");
-            } else if (!(driver.findElement(objLocator).getAttribute("name").equals(""))) {
-                actualText = driver.findElement(objLocator).getAttribute("name");
+            if (!(inject.driver.findElement(objLocator).getText().equals(""))) {
+                actualText = inject.driver.findElement(objLocator).getText();
+            } else if (!(inject.driver.findElement(objLocator).getAttribute("value").equals(""))) {
+                actualText = inject.driver.findElement(objLocator).getAttribute("value");
+            } else if (!(inject.driver.findElement(objLocator).getAttribute("name").equals(""))) {
+                actualText = inject.driver.findElement(objLocator).getAttribute("name");
             }
 
             if (actualText.equalsIgnoreCase(expectedText)) {
@@ -99,6 +108,7 @@ public class CustomElementFunctions {
             return false;
         }
     }
+
     public void scrollToElement(By objLocator, Integer intWaitTime) throws Exception {
         Date strStart = currentDateTime();
         Date strStop;
@@ -108,8 +118,8 @@ public class CustomElementFunctions {
                 if (waitForElement(objLocator, intWaitTime)) {
 
                     try {
-                        WebElement ele = driver.findElement(objLocator);
-                        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", ele);
+                        WebElement ele = inject.driver.findElement(objLocator);
+                        ((JavascriptExecutor) inject.driver).executeScript("arguments[0].scrollIntoView(true);", ele);
                         System.out.println("Scrolled to object: " + objLocator.toString());
                         break;
                     } catch (Exception e) {
@@ -126,6 +136,7 @@ public class CustomElementFunctions {
             e.printStackTrace();
         }
     }
+
     public Date currentDateTime() {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -140,7 +151,7 @@ public class CustomElementFunctions {
 
     public boolean waitForElement(By objLocator, Integer intWaitTime) throws Exception {
         //declaring explicit wait for object
-        WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+        WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
         try {
             WebElement elemnt = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
             System.out.println("Object: " + objLocator.toString() + " is clickable");
@@ -181,7 +192,7 @@ public class CustomElementFunctions {
 
     public String getAttribute(By objLocator, String strAttribute) throws Exception {
         try {
-            String strValue = driver.findElement(objLocator).getAttribute(strAttribute);
+            String strValue = inject.driver.findElement(objLocator).getAttribute(strAttribute);
             if (strValue == null) {
                 return "";
             } else {
@@ -197,9 +208,9 @@ public class CustomElementFunctions {
     public void highlightElement(By objLocator) throws Exception {
         try {
             //Create object of a JavascriptExecutor interface
-            JavascriptExecutor js = (JavascriptExecutor) driver;
+            JavascriptExecutor js = (JavascriptExecutor) inject.driver;
             //use executeScript() method and pass the arguments
-            WebElement ele = driver.findElement(objLocator);
+            WebElement ele = inject.driver.findElement(objLocator);
             //Here i pass values based on css style. Yellow background color with solid red color border.
             for (int i = 0; i < 1; i++) {
                 js.executeScript("arguments[0].setAttribute('style', arguments[1]);", ele, "color: yellow; border: 2px solid yellow;");
@@ -215,8 +226,8 @@ public class CustomElementFunctions {
     public void mouseHover(By objLocator) throws Exception {
         try {
             highlightElement(objLocator);
-            Actions action = new Actions(driver);
-            WebElement ele = driver.findElement(objLocator);
+            Actions action = new Actions(inject.driver);
+            WebElement ele = inject.driver.findElement(objLocator);
             action.moveToElement(ele).build().perform();
             System.out.println("Mouseover on object: " + objLocator.toString() + " is done");
         } catch (Exception e) {
@@ -227,7 +238,7 @@ public class CustomElementFunctions {
 
     public void selectDropdownByText(By objLocator, String strText) throws Exception {
         scrollToElement(objLocator, 2);
-        Select ele = new Select(driver.findElement(objLocator));
+        Select ele = new Select(inject.driver.findElement(objLocator));
         try {
             //highlightElement(objLocator);
             ele.selectByVisibleText(strText);
@@ -253,7 +264,7 @@ public class CustomElementFunctions {
     public void selectDropdownByIndex(By objLocator, int intIndex) throws Exception {
         try {
             //highlightElement(objLocator);
-            Select ele = new Select(driver.findElement(objLocator));
+            Select ele = new Select(inject.driver.findElement(objLocator));
             ele.selectByIndex(intIndex);
             System.out.println("Selecting value from: " + objLocator.toString() + " is done");
 //            reportEvent("pass", "Selecting dropdown value " + ele.getFirstSelectedOption().toString() + " is successful");
@@ -264,7 +275,7 @@ public class CustomElementFunctions {
     }
 
     public void selectDropdownByValue(By objLocator, String strValue) throws Exception {
-        Select ele = new Select(driver.findElement(objLocator));
+        Select ele = new Select(inject.driver.findElement(objLocator));
         try {
             //highlightElement(objLocator);
             ele.selectByValue(strValue);
@@ -291,7 +302,7 @@ public class CustomElementFunctions {
         try {
             //File srcRep = new File(".OR_IE.properties");
             FileInputStream fis = null;
-            fis = new FileInputStream(strPropPath);
+            fis = new FileInputStream(System.getProperty("user.dir") + strPropPath);
             // Create Properties class object to read properties file
             Properties pro = new Properties();
             // Load file so we can use into our script
@@ -300,7 +311,7 @@ public class CustomElementFunctions {
                 return pro.getProperty(strPropName);
             } else {
                 System.out.println("Object property " + strPropName + " is not found");
-                return "null";
+                return null;
             }
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -308,9 +319,9 @@ public class CustomElementFunctions {
         }
     }
 
-    public static void writePropertiesFile(String strKey, String strKeyValue,String strFilePath) {
+    public static void writePropertiesFile(String strKey, String strKeyValue, String strFilePath) {
         Properties prop = new Properties();
-        strFilePath = System.getProperty("user.dir")+strFilePath;
+        strFilePath = System.getProperty("user.dir") + strFilePath;
         try {
             InputStream in = new FileInputStream(strFilePath);
             prop.load(in);
@@ -328,10 +339,22 @@ public class CustomElementFunctions {
         }
     }
 
+    public static void getAllpropertyfromPropertiesFile(String strFilePath) throws IOException {
+        Properties prop = new Properties();
+        strFilePath = System.getProperty("user.dir") + strFilePath;
+        try {
+            InputStream in = new FileInputStream(strFilePath);
+            prop.load(in);
+            prop.forEach((k, v) -> System.out.println("Key : " + k + ", Value : " + v));
+        } catch (IOException ie) {
+            System.out.println(ie);
+        }
+    }
+
     public void setValue(By objLocator, String strValue, int intWaitTime) throws Exception {
         try {
             scrollToElement(objLocator, 5);
-            WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+            WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
             WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
             for (int i = 0; i < intWaitTime; i++) {
                 ele.sendKeys(strValue.trim());
@@ -360,9 +383,10 @@ public class CustomElementFunctions {
             e.printStackTrace();
         }
     }
+
     public boolean ClearTextSafely(By objLocator) throws Exception {
         try {
-            WebElement element = driver.findElement(objLocator);
+            WebElement element = inject.driver.findElement(objLocator);
 //			((JavascriptExecutor) FunctionLibrary.driver).executeScript("arguments[0].value ='';", element);
 //            Actions action = new Actions(driver);
 //            action.clickAndHold(element).perform();
@@ -387,21 +411,21 @@ public class CustomElementFunctions {
         try {
 //			WebDriverWait wait = new WebDriverWait(global.driver, global.intWaitTime);
 //			WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
-            WebElement ele = driver.findElement(objLocator);
+            WebElement ele = inject.driver.findElement(objLocator);
             ele.click();
             System.out.println("Clicked on object: " + objLocator.toString());
         } catch (Exception e) {
             try {
-                WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+                WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
                 WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
-                JavascriptExecutor jse = (JavascriptExecutor) driver;
+                JavascriptExecutor jse = (JavascriptExecutor) inject.driver;
                 jse.executeScript("window.scrollTo(0," + ele.getLocation().getY() + ")");
                 jse.executeScript("arguments[0].click();", ele);
                 System.out.println("Clicked on object: " + objLocator.toString());
             } catch (Exception e1) {
                 try {
-                    WebElement ele = driver.findElement(objLocator);
-                    JavascriptExecutor jse = (JavascriptExecutor) driver;
+                    WebElement ele = inject.driver.findElement(objLocator);
+                    JavascriptExecutor jse = (JavascriptExecutor) inject.driver;
                     jse.executeScript("window.scrollTo(0," + ele.getLocation().getY() + ")");
                     jse.executeScript("arguments[0].click();", ele);
                 } catch (Exception e2) {
@@ -416,21 +440,21 @@ public class CustomElementFunctions {
         try {
 //			WebDriverWait wait = new WebDriverWait(global.driver, global.intWaitTime);
 //			WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
-            WebElement ele = driver.findElement(By.linkText(strText));
+            WebElement ele = inject.driver.findElement(By.linkText(strText));
             ele.click();
             System.out.println("Clicked on Link: " + ele.getText().toString());
         } catch (Exception e) {
             try {
-                WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+                WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
                 WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(strText)));
-                JavascriptExecutor jse = (JavascriptExecutor) driver;
+                JavascriptExecutor jse = (JavascriptExecutor) inject.driver;
                 jse.executeScript("window.scrollTo(0," + ele.getLocation().getY() + ")");
                 jse.executeScript("arguments[0].click();", ele);
                 System.out.println("Clicked on Link: " + ele.getText().toString());
             } catch (Exception e1) {
                 try {
-                    WebElement ele = driver.findElement(By.linkText(strText));
-                    JavascriptExecutor jse = (JavascriptExecutor) driver;
+                    WebElement ele = inject.driver.findElement(By.linkText(strText));
+                    JavascriptExecutor jse = (JavascriptExecutor) inject.driver;
                     jse.executeScript("window.scrollTo(0," + ele.getLocation().getY() + ")");
                     jse.executeScript("arguments[0].click();", ele);
                 } catch (Exception e2) {
@@ -443,17 +467,17 @@ public class CustomElementFunctions {
 
     public void clickElement(By objLocator, boolean flgScroll, int intWaitTime) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+            WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
             WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(objLocator));
             if (flgScroll) {
-                JavascriptExecutor jse = (JavascriptExecutor) driver;
+                JavascriptExecutor jse = (JavascriptExecutor) inject.driver;
                 jse.executeScript("window.scrollTo(0," + ele.getLocation().getY() + ")");
             }
             ele.click();
             System.out.println("Clicked on object: " + objLocator.toString());
         } catch (Exception e) {
             try {
-                WebElement ele = driver.findElement(objLocator);
+                WebElement ele = inject.driver.findElement(objLocator);
                 ele.click();
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -461,25 +485,24 @@ public class CustomElementFunctions {
         }
     }
 
-    public void invokeApp(String strBrowser ) {
+    public void invokeApp(String strBrowser) {
         Map<String, Object> deviceMetrics = new HashMap<>();
         inject.strBrowser = strBrowser;
         if (strBrowser.equalsIgnoreCase("ie")) {
             System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\IEDriverServer.exe");
-            driver = new InternetExplorerDriver();
-            driver.manage().window().maximize();
+            inject.driver = new InternetExplorerDriver();
+            inject.driver.manage().window().maximize();
         } else if (strBrowser.equalsIgnoreCase("chrome")) {
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\chromedriver.exe");
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("useAutomationExtension", false);
             options.addArguments("start-maximized");
-            driver = new ChromeDriver(options);
-        }else if (strBrowser.equalsIgnoreCase("mozilla")) {
+            inject.driver = new ChromeDriver(options);
+        } else if (strBrowser.equalsIgnoreCase("mozilla")) {
             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\geckodriver.exe");
-            driver = new FirefoxDriver();
-            driver.manage().window().maximize();
-        }
-        else if (strBrowser.equalsIgnoreCase("chrome-mobile")) {
+            inject.driver = new FirefoxDriver();
+            inject.driver.manage().window().maximize();
+        } else if (strBrowser.equalsIgnoreCase("chrome-mobile")) {
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\chromedriver.exe");
            /* deviceMetrics.put("width", 360);
             deviceMetrics.put("height", 640);
@@ -496,179 +519,177 @@ public class CustomElementFunctions {
 
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 
-            driver = new ChromeDriver(capabilities);
-        }
-
-
-    }
-
-    public void invokeApp() throws IOException {
-
-        // Loading properties file
-        InputStream propertyFile = new FileInputStream(globalParameterFile);
-        Properties prop = new Properties();
-        prop.load(propertyFile);
-
-        // Check if desktop browser or remote server(SauceLabs/Perfecto) for
-        // execution
-        // Default scenario
-        if (prop.getProperty("isRemoteEnabled").equalsIgnoreCase("N")
-                || prop.getProperty("isRemoteEnabled").equalsIgnoreCase("")) {
-
-            // Desktop browser has been selected now checking which browser is
-            // selected for execution
-            if (prop.getProperty("browserName").equalsIgnoreCase("ie")) {
-                System.setProperty("webdriver.ie.driver",
-                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
-                driver.manage().window().maximize();
-                // Default scenario
-            } else if (prop.getProperty("browserName").equalsIgnoreCase("chrome")
-                    || prop.getProperty("browserName").equalsIgnoreCase("")) {
-                System.setProperty("webdriver.chrome.driver",
-                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\chromedriver.exe");
-                ChromeOptions options = new ChromeOptions();
-                options.setExperimentalOption("useAutomationExtension", false);
-                options.addArguments("start-maximized");
-                driver = new ChromeDriver(options);
-            } else if (prop.getProperty("browserName").equalsIgnoreCase("mozilla")) {
-                System.setProperty("webdriver.gecko.driver",
-                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\geckodriver.exe");
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
-            }
-
-        } else if (prop.getProperty("isRemoteEnabled").equalsIgnoreCase("Y")) {
-            // Check if SauceLabs or Perfecto is selected for execution
-            if (prop.getProperty("remoteType").equalsIgnoreCase("SauceLabs")) {
-
-                // Set the SauceLabs credentials
-                String userName = prop.getProperty("sauceUserName");
-                String accessKey = prop.getProperty("sauceAccessKey");
-                String url = "https://" + userName + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub";
-
-                // Set the SauceLabs details
-                DesiredCapabilities dc = new DesiredCapabilities();
-
-                // Check if sauce device is PC/Mac
-                if (prop.getProperty("sauceDevice").equalsIgnoreCase("PC")
-                        || prop.getProperty("sauceDevice").equalsIgnoreCase("Mac")) {
-                    dc.setCapability("platform",
-                            prop.getProperty("sauceOS") + " " + prop.getProperty("sauceOSVersion"));
-                    dc.setCapability("browserName", prop.getProperty("sauceBrowser"));
-                    dc.setCapability("browserVersion", prop.getProperty("sauceBrowserVersion"));
-                } else {
-                    dc.setCapability("deviceName", prop.getProperty("sauceMobileDevice"));
-                    dc.setCapability("deviceOrientation", prop.getProperty("sauceMobileOrientation"));
-                    dc.setCapability("platformName", prop.getProperty("sauceMobileOS"));
-                    dc.setCapability("platformVersion", prop.getProperty("sauceMobileOSVersion"));
-                    dc.setCapability("appiumVersion", prop.getProperty("sauceMobileAppiumVersion"));
-
-                    // Check if the app type is web / native / hybrid
-                    if (prop.getProperty("mobileAppType").equalsIgnoreCase("Web")) {
-                        dc.setCapability("browserName", "Chrome");
-                    } else {
-                        dc.setCapability("browserName", "");
-                        dc.setCapability("app", prop.getProperty("sauceAppURL"));
-                    }
-                }
-
-                // Start driver and open the URL:
-                driver = new RemoteWebDriver(new URL(url), dc);
-                driver.manage().window().maximize();
-                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-
-                // Default scenario
-            } else if (prop.getProperty("remoteType").equalsIgnoreCase("Perfecto")
-                    || prop.getProperty("remoteType").equalsIgnoreCase("")) {
-
-                String host = prop.getProperty("perfectoCloudURL");
-
-                // Set the Perfecto details
-                DesiredCapabilities dc = new DesiredCapabilities();
-                dc.setCapability("user", prop.getProperty("perfectoUserName"));
-                // Decoding and adding to Desired Capabilities
-//                dc.setCapability("password", Encoder.base64DecodeFrom(prop.getProperty("perfectoPassword")));
-                // Check whether tunnel ID is required
-                if (prop.getProperty("tunnelIdRequired").equalsIgnoreCase("Y")) {
-                    dc.setCapability("tunnelId", Injection.tunnelId);
-                }
-
-                // Check if execution is set to Perfecto Web / Mobile
-                if (prop.getProperty("perfectoDevice").equalsIgnoreCase("Web")) {
-
-                    // dc.setCapability("platformName",
-                    // prop.getProperty("perfectoWebOS"));
-                    // dc.setCapability("platformVersion",
-                    // prop.getProperty("perfectoWebOSVersion"));
-                    // dc.setCapability("browserName",
-                    // prop.getProperty("perfectoWebBrowser"));
-                    // dc.setCapability("browserVersion",
-                    // prop.getProperty("perfectoWebBrowserVersion"));
-                    // dc.setCapability("resolution",
-                    // prop.getProperty("perfectoWebResolution"));
-                    // dc.setCapability("location",
-                    // prop.getProperty("perfectoWebLocation"));
-
-                } else if (prop.getProperty("perfectoDevice").equalsIgnoreCase("Mobile")) {
-                    inject.strMobileOS = prop.getProperty("perfectoMobilePlatform");
-
-                    dc.setCapability("platformName", prop.getProperty("perfectoMobilePlatform"));
-//                    dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
-                    dc.setCapability("platformVersion", prop.getProperty("perfectoMobilePlatformVersion"));
-                    dc.setCapability("location", prop.getProperty("perfectoMobileLocation"));
-
-                    // For web app
-                    if (prop.getProperty("mobileAppType").equalsIgnoreCase("Web")) {
-                        if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("Android")) {
-                            dc.setCapability("browserName", prop.getProperty("mobileBrowser"));
-
-                        } else if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("iOS")) {
-                            dc.setCapability("browserName", prop.getProperty("mobileBrowser"));
-                        }
-
-                    } else if (prop.getProperty("mobileAppType").equalsIgnoreCase("Native")) {
-                        // For native app
-                        if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("Android")) {
-                            dc.setCapability("appPackage", prop.getProperty("appPackage"));
-                            // dc.setCapability("appActivity",
-                            // prop.getProperty("appActivity"));
-                            dc.setCapability("browserName", "");
-
-                        } else if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("iOs")) {
-                            dc.setCapability("bundleId", prop.getProperty("bundleId"));
-                            dc.setCapability("browserName", "");
-                        }
-
-
-                    }
-                    // dc.setCapability("app", prop.getProperty("appURL"));
-
-                    if (prop.getProperty("isPerfectoDeviceIDUsed").equalsIgnoreCase("Y")) {
-                        // Set the device ID for execution
-                        dc.setCapability("deviceName", prop.getProperty("perfectoDevideID"));
-                        //dc.setCapability("UDID", prop.getProperty("perfectoDevideID"));
-
-                    } else if (prop.getProperty("isPerfectoDeviceIDUsed").equalsIgnoreCase("N")) {
-
-                        // Set the device attributes for execution
-
-                        dc.setCapability("resolution", prop.getProperty("perfectoMobileResolution"));
-                        dc.setCapability("manufacturer", prop.getProperty("perfectoMobileManufacturer"));
-                        dc.setCapability("model", prop.getProperty("perfectoMobileModel"));
-                    }
-                }
-
-                driver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), dc);
-                driver.manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
-            }
+            inject.driver = new ChromeDriver(capabilities);
         }
     }
+
+//    public void invokeApp() throws IOException {
+//
+//        // Loading properties file
+//        InputStream propertyFile = new FileInputStream(globalParameterFile);
+//        Properties prop = new Properties();
+//        prop.load(propertyFile);
+//
+//        // Check if desktop browser or remote server(SauceLabs/Perfecto) for
+//        // execution
+//        // Default scenario
+//        if (prop.getProperty("isRemoteEnabled").equalsIgnoreCase("N")
+//                || prop.getProperty("isRemoteEnabled").equalsIgnoreCase("")) {
+//
+//            // Desktop browser has been selected now checking which browser is
+//            // selected for execution
+//            if (prop.getProperty("browserName").equalsIgnoreCase("ie")) {
+//                System.setProperty("webdriver.ie.driver",
+//                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\IEDriverServer.exe");
+//                driver = new InternetExplorerDriver();
+//                driver.manage().window().maximize();
+//                // Default scenario
+//            } else if (prop.getProperty("browserName").equalsIgnoreCase("chrome")
+//                    || prop.getProperty("browserName").equalsIgnoreCase("")) {
+//                System.setProperty("webdriver.chrome.driver",
+//                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\chromedriver.exe");
+//                ChromeOptions options = new ChromeOptions();
+//                options.setExperimentalOption("useAutomationExtension", false);
+//                options.addArguments("start-maximized");
+//                driver = new ChromeDriver(options);
+//            } else if (prop.getProperty("browserName").equalsIgnoreCase("mozilla")) {
+//                System.setProperty("webdriver.gecko.driver",
+//                        System.getProperty("user.dir") + "\\src\\main\\resources\\drivers\\geckodriver.exe");
+//                driver = new FirefoxDriver();
+//                driver.manage().window().maximize();
+//            }
+//
+//        } else if (prop.getProperty("isRemoteEnabled").equalsIgnoreCase("Y")) {
+//            // Check if SauceLabs or Perfecto is selected for execution
+//            if (prop.getProperty("remoteType").equalsIgnoreCase("SauceLabs")) {
+//
+//                // Set the SauceLabs credentials
+//                String userName = prop.getProperty("sauceUserName");
+//                String accessKey = prop.getProperty("sauceAccessKey");
+//                String url = "https://" + userName + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub";
+//
+//                // Set the SauceLabs details
+//                DesiredCapabilities dc = new DesiredCapabilities();
+//
+//                // Check if sauce device is PC/Mac
+//                if (prop.getProperty("sauceDevice").equalsIgnoreCase("PC")
+//                        || prop.getProperty("sauceDevice").equalsIgnoreCase("Mac")) {
+//                    dc.setCapability("platform",
+//                            prop.getProperty("sauceOS") + " " + prop.getProperty("sauceOSVersion"));
+//                    dc.setCapability("browserName", prop.getProperty("sauceBrowser"));
+//                    dc.setCapability("browserVersion", prop.getProperty("sauceBrowserVersion"));
+//                } else {
+//                    dc.setCapability("deviceName", prop.getProperty("sauceMobileDevice"));
+//                    dc.setCapability("deviceOrientation", prop.getProperty("sauceMobileOrientation"));
+//                    dc.setCapability("platformName", prop.getProperty("sauceMobileOS"));
+//                    dc.setCapability("platformVersion", prop.getProperty("sauceMobileOSVersion"));
+//                    dc.setCapability("appiumVersion", prop.getProperty("sauceMobileAppiumVersion"));
+//
+//                    // Check if the app type is web / native / hybrid
+//                    if (prop.getProperty("mobileAppType").equalsIgnoreCase("Web")) {
+//                        dc.setCapability("browserName", "Chrome");
+//                    } else {
+//                        dc.setCapability("browserName", "");
+//                        dc.setCapability("app", prop.getProperty("sauceAppURL"));
+//                    }
+//                }
+//
+//                // Start driver and open the URL:
+//                driver = new RemoteWebDriver(new URL(url), dc);
+//                driver.manage().window().maximize();
+//                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+//
+//                // Default scenario
+//            } else if (prop.getProperty("remoteType").equalsIgnoreCase("Perfecto")
+//                    || prop.getProperty("remoteType").equalsIgnoreCase("")) {
+//
+//                String host = prop.getProperty("perfectoCloudURL");
+//
+//                // Set the Perfecto details
+//                DesiredCapabilities dc = new DesiredCapabilities();
+//                dc.setCapability("user", prop.getProperty("perfectoUserName"));
+//                // Decoding and adding to Desired Capabilities
+////                dc.setCapability("password", Encoder.base64DecodeFrom(prop.getProperty("perfectoPassword")));
+//                // Check whether tunnel ID is required
+//                if (prop.getProperty("tunnelIdRequired").equalsIgnoreCase("Y")) {
+//                    dc.setCapability("tunnelId", Injection.tunnelId);
+//                }
+//
+//                // Check if execution is set to Perfecto Web / Mobile
+//                if (prop.getProperty("perfectoDevice").equalsIgnoreCase("Web")) {
+//
+//                    // dc.setCapability("platformName",
+//                    // prop.getProperty("perfectoWebOS"));
+//                    // dc.setCapability("platformVersion",
+//                    // prop.getProperty("perfectoWebOSVersion"));
+//                    // dc.setCapability("browserName",
+//                    // prop.getProperty("perfectoWebBrowser"));
+//                    // dc.setCapability("browserVersion",
+//                    // prop.getProperty("perfectoWebBrowserVersion"));
+//                    // dc.setCapability("resolution",
+//                    // prop.getProperty("perfectoWebResolution"));
+//                    // dc.setCapability("location",
+//                    // prop.getProperty("perfectoWebLocation"));
+//
+//                } else if (prop.getProperty("perfectoDevice").equalsIgnoreCase("Mobile")) {
+//                    inject.strMobileOS = prop.getProperty("perfectoMobilePlatform");
+//
+//                    dc.setCapability("platformName", prop.getProperty("perfectoMobilePlatform"));
+////                    dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
+//                    dc.setCapability("platformVersion", prop.getProperty("perfectoMobilePlatformVersion"));
+//                    dc.setCapability("location", prop.getProperty("perfectoMobileLocation"));
+//
+//                    // For web app
+//                    if (prop.getProperty("mobileAppType").equalsIgnoreCase("Web")) {
+//                        if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("Android")) {
+//                            dc.setCapability("browserName", prop.getProperty("mobileBrowser"));
+//
+//                        } else if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("iOS")) {
+//                            dc.setCapability("browserName", prop.getProperty("mobileBrowser"));
+//                        }
+//
+//                    } else if (prop.getProperty("mobileAppType").equalsIgnoreCase("Native")) {
+//                        // For native app
+//                        if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("Android")) {
+//                            dc.setCapability("appPackage", prop.getProperty("appPackage"));
+//                            // dc.setCapability("appActivity",
+//                            // prop.getProperty("appActivity"));
+//                            dc.setCapability("browserName", "");
+//
+//                        } else if (prop.getProperty("perfectoMobilePlatform").equalsIgnoreCase("iOs")) {
+//                            dc.setCapability("bundleId", prop.getProperty("bundleId"));
+//                            dc.setCapability("browserName", "");
+//                        }
+//
+//
+//                    }
+//                    // dc.setCapability("app", prop.getProperty("appURL"));
+//
+//                    if (prop.getProperty("isPerfectoDeviceIDUsed").equalsIgnoreCase("Y")) {
+//                        // Set the device ID for execution
+//                        dc.setCapability("deviceName", prop.getProperty("perfectoDevideID"));
+//                        //dc.setCapability("UDID", prop.getProperty("perfectoDevideID"));
+//
+//                    } else if (prop.getProperty("isPerfectoDeviceIDUsed").equalsIgnoreCase("N")) {
+//
+//                        // Set the device attributes for execution
+//
+//                        dc.setCapability("resolution", prop.getProperty("perfectoMobileResolution"));
+//                        dc.setCapability("manufacturer", prop.getProperty("perfectoMobileManufacturer"));
+//                        dc.setCapability("model", prop.getProperty("perfectoMobileModel"));
+//                    }
+//                }
+//
+//                driver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), dc);
+//                driver.manage().timeouts().implicitlyWait(240, TimeUnit.SECONDS);
+//            }
+//        }
+//    }
 
     public boolean exists(String objName, By objLocator, Integer intWaitTime) throws Exception {
         //Check whether element is clickable or not
 //        try {
-        WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+        WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
         if (wait.until(ExpectedConditions.presenceOfElementLocated(objLocator)) != null) {
             System.out.println("Object: " + objLocator.toString() + " is present");
 //            reportEvent("pass", "Object " + objName + " is present");
@@ -695,7 +716,7 @@ public class CustomElementFunctions {
     public boolean notExists(String objName, By objLocator, Integer intWaitTime) throws Exception {
         //Check whether element is clickable or not
         try {
-            WebDriverWait wait = new WebDriverWait(driver, intWaitTime);
+            WebDriverWait wait = new WebDriverWait(inject.driver, intWaitTime);
             if (wait.until(ExpectedConditions.elementToBeClickable(objLocator)) != null) {
                 System.out.println("Object: " + objLocator.toString() + " is clickable");
 //                reportEvent("fail", "Object " + objName + " is present");
@@ -721,8 +742,8 @@ public class CustomElementFunctions {
     public void moveCursor(By objLocator) throws Exception {
         try {
             scrollToElement(objLocator, 5);
-            Actions action = new Actions(driver);
-            WebElement ele = driver.findElement(objLocator);
+            Actions action = new Actions(inject.driver);
+            WebElement ele = inject.driver.findElement(objLocator);
             action.moveToElement(ele).build().perform();
 //	        System.out.println("Mouseover on object: "+objLocator.toString());
         } catch (Exception e) {
@@ -732,10 +753,10 @@ public class CustomElementFunctions {
 
     public void moveCursor(By objLocator, By objNext, int intWaitTime) throws Exception {
         try {
-            Actions action = new Actions(driver);
+            Actions action = new Actions(inject.driver);
             WebElement ele;
             for (int i = 0; i < 30; i++) {
-                ele = driver.findElement(objLocator);
+                ele = inject.driver.findElement(objLocator);
                 scrollToElement(objLocator, intWaitTime);
                 action.moveToElement(ele).build().perform();
                 if (waitForElement(objNext, intWaitTime)) {
@@ -755,7 +776,7 @@ public class CustomElementFunctions {
 //        	Screenshot full_Screenshot1 = new AShot().takeScreenshot(global.driver);
             File dir = new File(strPath + "\\");
             dir.mkdir();
-            File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File src = ((TakesScreenshot) inject.driver).getScreenshotAs(OutputType.FILE);
 //        	try {
             FileUtils.copyFile(src, new File(strPath + "\\" + strStamp + ".png"));
 //			ImageIO.write(full_Screenshot1.getImage(), "PNG", new File(strPath+"\\" + strStamp + ".png"));
@@ -777,37 +798,37 @@ public class CustomElementFunctions {
         String FirstWindow = "";
         try {
             try {
-                FirstWindow = driver.getWindowHandle();  //will keep current window to switch back
+                FirstWindow = inject.driver.getWindowHandle();  //will keep current window to switch back
             } catch (Exception e) {
 
             }
             for (int i = 0; i < intWaitTime; i++) {
-                for (String winHandle : driver.getWindowHandles()) {
+                for (String winHandle : inject.driver.getWindowHandles()) {
                     if (inject.strBrowser.equals("IE")) {
                         Thread.sleep(2000);
                     }
-                    if (driver.switchTo().window(winHandle).getTitle().toLowerCase().contains(strTitle.toLowerCase())) {
+                    if (inject.driver.switchTo().window(winHandle).getTitle().toLowerCase().contains(strTitle.toLowerCase())) {
                         //This is the one I am looking for
                         try {
-                            CurrentWindow = driver.getWindowHandle();
+                            CurrentWindow = inject.driver.getWindowHandle();
                             System.out.println("Previous Window: " + FirstWindow + " | Current Window: " + CurrentWindow);
                             if (!FirstWindow.equals(CurrentWindow)) {
                                 Thread.sleep(1000);
-                                driver.manage().window().maximize();
-                                System.out.println("Switched to window: " + driver.getTitle().toString());
+                                inject.driver.manage().window().maximize();
+                                System.out.println("Switched to window: " + inject.driver.getTitle().toString());
                                 flgswitch = true;
                                 break;
                             } else {
-                                driver.switchTo().window(FirstWindow);
+                                inject.driver.switchTo().window(FirstWindow);
                             }
                         } catch (Exception e) {
-                            driver.switchTo().window(FirstWindow);
+                            inject.driver.switchTo().window(FirstWindow);
                             System.out.println("Could not switch window");
                             e.printStackTrace();
                         }
                     } else {
                         try {
-                            driver.switchTo().window(FirstWindow);
+                            inject.driver.switchTo().window(FirstWindow);
                         } catch (Exception e) {
 
                         }
@@ -827,18 +848,19 @@ public class CustomElementFunctions {
             return false;
         }
     }
+
     public boolean switchWindow(Integer intWindow, int intWaitTime) throws Exception {
         boolean flgswitch = false;
         String FirstWindow = "";
         String CurrentWindow = "";
         try {
-            FirstWindow = driver.getWindowHandle();  //will keep current window to switch back
+            FirstWindow = inject.driver.getWindowHandle();  //will keep current window to switch back
         } catch (Exception er) {
             FirstWindow = "";
         }
         if (intWindow > 0) {
             for (int i = 0; i < 60; i++) {
-                if (driver.getWindowHandles().size() > 1) {
+                if (inject.driver.getWindowHandles().size() > 1) {
                     break;
                 } else {
                     Thread.sleep(1000);
@@ -849,7 +871,7 @@ public class CustomElementFunctions {
             Thread.sleep(2000);
         }
         try {
-            Set handles = driver.getWindowHandles();
+            Set handles = inject.driver.getWindowHandles();
             String[] individualHandle = new String[handles.size()];
             Iterator it = handles.iterator();
             int i = 0;
@@ -860,13 +882,13 @@ public class CustomElementFunctions {
 //	        try {
             for (int j = 1; j < intWaitTime; j++) {
                 try {
-                    driver.switchTo().window(individualHandle[intWindow]);
-                    CurrentWindow = driver.getWindowHandle();
+                    inject.driver.switchTo().window(individualHandle[intWindow]);
+                    CurrentWindow = inject.driver.getWindowHandle();
                     Thread.sleep(1000);
                     System.out.println("Previous Window: " + FirstWindow + " | Current Window: " + CurrentWindow);
                     if (!FirstWindow.equals(CurrentWindow)) {
-                        driver.manage().window().maximize();
-                        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                        inject.driver.manage().window().maximize();
+                        inject.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
                         System.out.println("Switched to window nuber: " + intWindow);
                         flgswitch = true;
                         break;
