@@ -1,6 +1,6 @@
-package com.aig.stepDefinition;
+package com.stepDefinition;
 
-import com.aig.cucumber.CustomElementFunctions;
+import com.cucumber.CustomElementFunctions;
 import org.openqa.selenium.WebDriver;
 
 import java.util.Hashtable;

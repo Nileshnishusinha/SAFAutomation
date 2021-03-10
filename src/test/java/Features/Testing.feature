@@ -32,3 +32,6 @@ Feature: Testing Goibibo Website
     Examples:
       | ShipmentId | customer |
       | 6543217    | Maya     |
+
+
+#    testing of new app will be soon lauched

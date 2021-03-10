@@ -1,11 +1,7 @@
-package com.aig.stepDefinition;
+package com.stepDefinition;
 
-import com.aig.cucumber.CustomElementFunctions;
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
+import com.cucumber.CustomElementFunctions;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 public class Hooks extends CustomElementFunctions {
     private Injection inject;

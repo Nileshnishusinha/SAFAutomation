@@ -1,10 +1,9 @@
-package com.aig.stepDefinition;
+package com.stepDefinition;
 
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import gherkin.formatter.Reporter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

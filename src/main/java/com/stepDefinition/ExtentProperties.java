@@ -1,8 +1,4 @@
-package com.aig.stepDefinition;
-
-import com.aig.cucumber.CustomElementFunctions;
-
-import java.io.File;
+package com.stepDefinition;
 
 public class ExtentProperties {
 //    INSTANCE;

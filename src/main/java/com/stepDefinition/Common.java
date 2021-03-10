@@ -1,4 +1,4 @@
-package com.aig.stepDefinition;
+package com.stepDefinition;
 
 public class Common {
 

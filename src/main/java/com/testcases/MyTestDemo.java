@@ -1,8 +1,8 @@
-package com.aig.testcases;
+package com.testcases;
 
-import com.aig.cucumber.CustomElementFunctions;
-import com.aig.stepDefinition.Injection;
-import com.aig.utility.MyScreenRecorder;
+import com.cucumber.CustomElementFunctions;
+import com.stepDefinition.Injection;
+import com.utility.MyScreenRecorder;
 
 public class MyTestDemo extends CustomElementFunctions {
     private Injection inject;

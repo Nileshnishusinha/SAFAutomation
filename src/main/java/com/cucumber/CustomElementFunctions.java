@@ -1,6 +1,6 @@
-package com.aig.cucumber;
+package com.cucumber;
 
-import com.aig.stepDefinition.Injection;
+import com.stepDefinition.Injection;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static com.aig.stepDefinition.Injection.globalParameterFile;
+import static com.stepDefinition.Injection.globalParameterFile;
 
 public class CustomElementFunctions {
     public String webElementWaitTime;

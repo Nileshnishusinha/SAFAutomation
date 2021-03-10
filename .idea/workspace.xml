@@ -6,18 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="7b519323-deb5-40f7-8509-d65ade2eb172" name="Default Changelist" comment="updated configuration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Framework.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/CustomElementFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/TestRunner.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/pages/VolPage.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/CReporting.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Common.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/ExtentProperties.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Hooks.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Injection.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/VOL.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/testcases/MyTestDemo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/utility/MyScreenRecorder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cucumber/CustomElementFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/TestRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cucumber/TestRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/pages/VolPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pages/VolPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/CReporting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/CReporting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/Common.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/ExtentProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/ExtentProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/Hooks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Injection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/Injection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/VOL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/stepDefinition/VOL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testcases/MyTestDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/testcases/MyTestDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/utility/MyScreenRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/utility/MyScreenRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testng.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testng.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,8 +98,8 @@
     </configuration>
     <configuration name="TestRunner" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="Framework" />
-      <option name="PACKAGE_NAME" value="com.aig.cucumber" />
-      <option name="MAIN_CLASS_NAME" value="com.aig.cucumber.TestRunner" />
+      <option name="PACKAGE_NAME" value="com.cucumber" />
+      <option name="MAIN_CLASS_NAME" value="com.cucumber.TestRunner" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="PARAMETERS" value="" />
@@ -107,10 +107,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Unnamed" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration name="TestRunner" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="Framework" />
-      <option name="PACKAGE_NAME" value="com.aig.cucumber" />
-      <option name="MAIN_CLASS_NAME" value="com.aig.cucumber.TestRunner" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="PACKAGE_NAME" value="com.cucumber" />
+      <option name="MAIN_CLASS_NAME" value="com.cucumber.TestRunner" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestRunner" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="Framework" />
+      <option name="PACKAGE_NAME" value="com.cucumber" />
+      <option name="MAIN_CLASS_NAME" value="com.cucumber.TestRunner" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -131,12 +143,12 @@
       <module name="Framework" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.aig.testcases.*" />
+          <option name="PATTERN" value="com.testcases.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.aig.testcases" />
-      <option name="MAIN_CLASS_NAME" value="com.aig.testcases.MyTestDemo" />
+      <option name="MAIN_CLASS_NAME" value="com.testcases.MyTestDemo" />
       <option name="METHOD_NAME" value="navigationTest" />
       <option name="TEST_OBJECT" value="METHOD" />
       <properties />
@@ -202,7 +214,6 @@
     </configuration>
     <list>
       <item itemvalue="Cucumber Java.Feature: Testing" />
-      <item itemvalue="JUnit.Unnamed" />
       <item itemvalue="JUnit.TestRunner" />
       <item itemvalue="TestNG.Unnamed" />
       <item itemvalue="TestNG.C:/Users/niles/IdeaProjects/Framework/testng.xml" />
@@ -282,7 +293,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/pages/VolPage.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/pages/VolPage.java</url>
           <line>14</line>
           <properties class="com.aig.pages.VolPage" method="validateTheExpectedTitleAs">
             <option name="EMULATED" value="true" />
@@ -306,7 +317,7 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/cucumber/CustomElementFunctions.java</url>
           <line>300</line>
           <properties class="com.aig.cucumber.CustomElementFunctions" method="getProp">
             <option name="EMULATED" value="true" />
@@ -314,7 +325,7 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/cucumber/CustomElementFunctions.java</url>
           <line>341</line>
           <properties class="com.aig.cucumber.CustomElementFunctions" method="getAllpropertyfromPropertiesFile">
             <option name="EMULATED" value="true" />
@@ -322,7 +333,7 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/testcases/MyTestDemo.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/testcases/MyTestDemo.java</url>
           <line>51</line>
           <properties class="com.aig.testcases.MyTestDemo" method="checkTheFunctionalityOfLogFourJIsWorkingAsExpected">
             <option name="EMULATED" value="true" />
@@ -330,7 +341,7 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/VOL.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/stepDefinition/VOL.java</url>
           <line>29</line>
           <properties class="com.aig.stepDefinition.VOL">
             <option name="EMULATED" value="true" />
@@ -338,7 +349,7 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/cucumber/CustomElementFunctions.java</url>
           <line>321</line>
           <properties class="com.aig.cucumber.CustomElementFunctions" method="writePropertiesFile">
             <option name="EMULATED" value="true" />
@@ -346,7 +357,7 @@
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/VOL.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/stepDefinition/VOL.java</url>
           <line>43</line>
           <properties class="com.aig.stepDefinition.VOL" method="testShippingDetails">
             <option name="EMULATED" value="true" />
@@ -354,7 +365,7 @@
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/stepDefinition/Common.java</url>
           <line>51</line>
           <properties class="com.aig.stepDefinition.Common">
             <option name="EMULATED" value="true" />
@@ -362,12 +373,12 @@
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/stepDefinition/Common.java</url>
           <line>37</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/com/stepDefinition/Common.java</url>
           <line>56</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>

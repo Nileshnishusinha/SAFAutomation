@@ -1,7 +1,7 @@
-package com.aig.pages;
+package com.pages;
 
-import com.aig.cucumber.CustomElementFunctions;
-import com.aig.stepDefinition.Injection;
+import com.cucumber.CustomElementFunctions;
+import com.stepDefinition.Injection;
 import org.openqa.selenium.By;
 
 public class VolPage extends CustomElementFunctions {

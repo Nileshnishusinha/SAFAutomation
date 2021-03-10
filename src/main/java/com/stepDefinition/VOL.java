@@ -1,14 +1,12 @@
-package com.aig.stepDefinition;
+package com.stepDefinition;
 
-import com.aig.cucumber.CustomElementFunctions;
-import com.aig.pages.VolPage;
-import com.aig.testcases.MyTestDemo;
-import cucumber.api.PendingException;
+import com.cucumber.CustomElementFunctions;
+import com.pages.VolPage;
+import com.testcases.MyTestDemo;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.Assert;
 
 
 public class VOL extends CustomElementFunctions {
