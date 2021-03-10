@@ -5,66 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b519323-deb5-40f7-8509-d65ade2eb172" name="Default Changelist" comment="updated configuration">
-      <change afterPath="$PROJECT_DIR$/.idea/Framework.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Config/extent-config.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Reports/cucumber-reports/report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Reports/cucumber-reports/report1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log4j.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/log4j.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586615142295/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586619824268/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586620402847/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586621244798/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586621405862/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586776071354/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586890331685/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586890571071/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586890742112/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586891081624/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586891303347/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586892497152/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/Run_1586892761598/report.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/CustomElementFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/TestRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/cucumber/TestRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/pages/VolPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/pages/VolPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/programs/Reverse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Common.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/ExtentProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/ExtentProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Hooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Injection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Injection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/Reporter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/VOL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/stepDefinition/VOL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testNg/DataProviderClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testNg/TestClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testcases/BaseClass.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testcases/LoginTestCRM.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/aig/testcases/MyTestDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/aig/testcases/MyTestDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Features/Testing.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Features/Testing.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/RunConfig.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/RunConfig.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/Framework.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/CustomElementFunctions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/cucumber/CustomElementFunctions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/TestRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/cucumber/TestRunner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/pages/DataProviderClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/pages/TestClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/pages/VolPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/pages/VolPage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Common.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Common.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/ExtentProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/ExtentProperties.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Hooks.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Hooks.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Injection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Injection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/VOL.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/VOL.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/testcases/BaseClass.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/testcases/LoginTestCRM.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/testcases/MyTestDemo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/testcases/MyTestDemo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/utility/MyScreenRecorder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/aig/utility/MyScreenRecorder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/cucumber/listener/Reporter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/META-INF/Framework.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/RunConfig.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/RunConfig.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testng.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testng.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Framework.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/CustomElementFunctions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/cucumber/TestRunner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/pages/VolPage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/CReporting.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Common.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/ExtentProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Hooks.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/Injection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/stepDefinition/VOL.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/testcases/MyTestDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/aig/utility/MyScreenRecorder.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,11 +236,41 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State />
           </value>
         </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1" value="TOOL_WINDOW" />
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
