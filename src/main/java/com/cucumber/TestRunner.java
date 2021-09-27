@@ -30,5 +30,4 @@ public class TestRunner {
         Reporter.setSystemInfo("Java Version", "1.8.0_151");
         Reporter.assignAuthor("Rapid Automation Tool - Nilesh Sinha");
     }
-
 }
